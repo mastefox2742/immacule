@@ -1,0 +1,660 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Joyeux Anniversaire, Frère en Christ</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Cormorant+Garamond:ital,wght@0,300;0,500;1,300;1,500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --gold: #C9A84C;
+    --gold-light: #F0D080;q
+    --gold-dark: #8B6914;
+    --deep: #0A0A14;
+    --deep2: #10101E;
+    --white: #FAF6EE;
+    --cream: #EFE8D8;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--deep);
+    color: var(--white);
+    font-family: 'Cormorant Garamond', serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* Stars background */
+  .stars {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    overflow: hidden;
+    pointer-events: none;
+  }
+
+  .star {
+    position: absolute;
+    background: white;
+    border-radius: 50%;
+    animation: twinkle var(--dur, 3s) ease-in-out infinite alternate;
+    animation-delay: var(--delay, 0s);
+    opacity: 0;
+  }
+
+  @keyframes twinkle {
+    0% { opacity: 0; transform: scale(0.8); }
+    100% { opacity: var(--op, 0.8); transform: scale(1.2); }
+  }
+
+  /* Cross beam of light */
+  .cross-light {
+    position: fixed;
+    top: 0; left: 50%;
+    transform: translateX(-50%);
+    width: 2px;
+    height: 100vh;
+    background: linear-gradient(to bottom, transparent, rgba(201,168,76,0.15), transparent);
+    z-index: 0;
+  }
+  .cross-light-h {
+    position: fixed;
+    top: 40%;
+    left: 0;
+    width: 100vw;
+    height: 1px;
+    background: linear-gradient(to right, transparent, rgba(201,168,76,0.1), transparent);
+    z-index: 0;
+  }
+
+  /* Main container */
+  .container {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 40px 20px;
+    text-align: center;
+  }
+
+  /* Crown / Halo SVG */
+  .halo-ring {
+    width: 180px;
+    height: 180px;
+    margin-bottom: 30px;
+    animation: haloSpin 20s linear infinite;
+    opacity: 0;
+    animation-fill-mode: forwards;
+    animation-name: haloReveal;
+    animation-duration: 2s;
+    animation-delay: 0.3s;
+  }
+
+  @keyframes haloSpin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+  @keyframes haloReveal {
+    0% { opacity: 0; transform: scale(0.5) rotate(0deg); }
+    100% { opacity: 1; transform: scale(1) rotate(360deg); }
+  }
+
+  /* Animated halo after reveal */
+  .halo-wrapper {
+    position: relative;
+    display: inline-block;
+    animation: haloFloat 6s ease-in-out infinite;
+    animation-delay: 2.5s;
+    margin-bottom: 30px;
+  }
+
+  @keyframes haloFloat {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-12px); }
+  }
+
+  .cross-icon {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 60px;
+    height: 80px;
+  }
+
+  /* Alpha & Omega flanking the cross */
+  .alpha-omega {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 180px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    pointer-events: none;
+  }
+  .greek-letter {
+    font-family: 'Cinzel Decorative', serif;
+    font-size: 1.5rem;
+    font-weight: 700;
+    background: linear-gradient(135deg, #8B6914, #F0D080, #C9A84C);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    filter: drop-shadow(0 0 6px rgba(201,168,76,0.7));
+    animation: alphaOmegaGlow 4s ease-in-out infinite alternate;
+  }
+  .greek-letter.alpha { animation-delay: 0s; }
+  .greek-letter.omega { animation-delay: 2s; }
+
+  @keyframes alphaOmegaGlow {
+    0% { filter: drop-shadow(0 0 4px rgba(201,168,76,0.4)); }
+    100% { filter: drop-shadow(0 0 14px rgba(240,208,128,0.9)); }
+  }
+
+  /* Alpha Omega banner */
+  .ao-banner {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    margin: 10px 0 40px;
+    opacity: 0;
+    animation: fadeIn 1.5s ease forwards;
+    animation-delay: 2.2s;
+  }
+  .ao-letter {
+    font-family: 'Cinzel Decorative', serif;
+    font-size: clamp(2rem, 6vw, 3.2rem);
+    font-weight: 900;
+    background: linear-gradient(160deg, #8B6914 0%, #F0D080 45%, #C9A84C 70%, #8B6914 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    filter: drop-shadow(0 0 16px rgba(201,168,76,0.5));
+    animation: aoFloat 5s ease-in-out infinite;
+  }
+  .ao-letter.omega-big { animation-delay: 2.5s; }
+
+  @keyframes aoFloat {
+    0%, 100% { filter: drop-shadow(0 0 10px rgba(201,168,76,0.4)); transform: translateY(0); }
+    50% { filter: drop-shadow(0 0 25px rgba(240,208,128,0.8)); transform: translateY(-6px); }
+  }
+
+  .ao-separator {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    color: var(--gold);
+    opacity: 0.6;
+    font-size: 1rem;
+  }
+
+  /* Title */
+  .greeting {
+    font-family: 'Cinzel Decorative', serif;
+    font-size: clamp(1.2rem, 4vw, 1.8rem);
+    color: var(--gold);
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    opacity: 0;
+    animation: fadeUp 1s ease forwards;
+    animation-delay: 1.2s;
+    margin-bottom: 10px;
+  }
+
+  .main-title {
+    font-family: 'Cinzel Decorative', serif;
+    font-size: clamp(2.2rem, 8vw, 5rem);
+    font-weight: 900;
+    line-height: 1.1;
+    background: linear-gradient(135deg, var(--gold-dark) 0%, var(--gold-light) 40%, var(--gold) 60%, var(--gold-dark) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    opacity: 0;
+    animation: fadeUp 1s ease forwards;
+    animation-delay: 1.6s;
+    margin-bottom: 20px;
+    text-shadow: none;
+    filter: drop-shadow(0 0 30px rgba(201,168,76,0.4));
+  }
+
+  .subtitle {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1.2rem, 3vw, 1.7rem);
+    font-weight: 300;
+    font-style: italic;
+    color: var(--cream);
+    opacity: 0;
+    animation: fadeUp 1s ease forwards;
+    animation-delay: 2s;
+    margin-bottom: 50px;
+    letter-spacing: 0.1em;
+  }
+
+  /* Divider */
+  .divider {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    margin: 30px 0;
+    width: 100%;
+    max-width: 600px;
+    opacity: 0;
+    animation: fadeIn 1.5s ease forwards;
+    animation-delay: 2.4s;
+  }
+  .divider-line {
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(to right, transparent, var(--gold), transparent);
+  }
+  .divider-cross {
+    color: var(--gold);
+    font-size: 1.4rem;
+  }
+
+  /* Message card */
+  .message-card {
+    max-width: 680px;
+    background: rgba(201,168,76,0.04);
+    border: 1px solid rgba(201,168,76,0.2);
+    border-radius: 2px;
+    padding: 50px 40px;
+    position: relative;
+    opacity: 0;
+    animation: fadeUp 1.2s ease forwards;
+    animation-delay: 2.8s;
+  }
+
+  .message-card::before, .message-card::after {
+    content: '';
+    position: absolute;
+    width: 30px; height: 30px;
+    border-color: var(--gold);
+    border-style: solid;
+    opacity: 0.5;
+  }
+  .message-card::before { top: 10px; left: 10px; border-width: 1px 0 0 1px; }
+  .message-card::after { bottom: 10px; right: 10px; border-width: 0 1px 1px 0; }
+
+  .verse {
+    font-size: clamp(1rem, 2.5vw, 1.25rem);
+    line-height: 1.9;
+    color: var(--cream);
+    font-weight: 300;
+    margin-bottom: 20px;
+  }
+
+  .verse em {
+    color: var(--gold-light);
+    font-style: italic;
+  }
+
+  .verse-ref {
+    font-size: 0.9rem;
+    color: var(--gold);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-top: 20px;
+    display: block;
+  }
+
+  /* Candles row */
+  .candles {
+    display: flex;
+    gap: 24px;
+    justify-content: center;
+    margin: 50px 0;
+    opacity: 0;
+    animation: fadeIn 1s ease forwards;
+    animation-delay: 3.5s;
+  }
+
+  .candle {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+    animation: candleFloat 3s ease-in-out infinite;
+  }
+  .candle:nth-child(2) { animation-delay: 0.5s; }
+  .candle:nth-child(3) { animation-delay: 1s; }
+  .candle:nth-child(4) { animation-delay: 1.5s; }
+  .candle:nth-child(5) { animation-delay: 2s; }
+
+  @keyframes candleFloat {
+    0%,100% { transform: translateY(0); }
+    50% { transform: translateY(-5px); }
+  }
+
+  .flame {
+    width: 14px;
+    height: 22px;
+    background: radial-gradient(ellipse at 50% 80%, #FFF5AA, #FFD700, #FF8C00, transparent);
+    border-radius: 50% 50% 30% 30%;
+    animation: flicker 0.6s ease-in-out infinite alternate;
+    filter: blur(0.5px);
+    box-shadow: 0 0 8px 2px rgba(255,200,0,0.6);
+  }
+  .candle:nth-child(even) .flame { animation-duration: 0.8s; }
+
+  @keyframes flicker {
+    0% { transform: scaleX(1) scaleY(1) rotate(-2deg); opacity: 0.9; }
+    100% { transform: scaleX(0.85) scaleY(1.1) rotate(2deg); opacity: 1; }
+  }
+
+  .wick {
+    width: 2px;
+    height: 6px;
+    background: #333;
+  }
+
+  .candle-body {
+    width: 20px;
+    height: 70px;
+    background: linear-gradient(to right, rgba(255,255,255,0.05), rgba(255,255,255,0.15), rgba(255,255,255,0.05));
+    border: 1px solid rgba(201,168,76,0.4);
+    border-radius: 2px;
+    position: relative;
+  }
+  .candle-body::after {
+    content: '';
+    position: absolute;
+    top: 0; left: 3px;
+    width: 2px;
+    height: 100%;
+    background: rgba(255,255,255,0.1);
+    border-radius: 2px;
+  }
+
+  .candle-base {
+    width: 26px;
+    height: 8px;
+    background: rgba(201,168,76,0.3);
+    border: 1px solid rgba(201,168,76,0.5);
+    border-radius: 2px;
+  }
+
+  /* Particles */
+  .particles {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .particle {
+    position: absolute;
+    width: 4px; height: 4px;
+    border-radius: 50%;
+    background: var(--gold);
+    animation: particleRise var(--dur, 8s) ease-in infinite;
+    animation-delay: var(--delay, 0s);
+    opacity: 0;
+    left: var(--left, 50%);
+  }
+
+  @keyframes particleRise {
+    0% { opacity: 0; transform: translateY(100vh) scale(0); }
+    10% { opacity: 0.8; }
+    90% { opacity: 0.3; }
+    100% { opacity: 0; transform: translateY(-20vh) scale(1.5); }
+  }
+
+  /* Bottom signature */
+  .signature {
+    margin-top: 50px;
+    opacity: 0;
+    animation: fadeIn 1.5s ease forwards;
+    animation-delay: 4s;
+    font-size: 1.1rem;
+    color: var(--gold);
+    letter-spacing: 0.3em;
+    font-style: italic;
+  }
+
+  .blessing {
+    margin-top: 15px;
+    font-size: 1.4rem;
+    color: var(--cream);
+    font-style: italic;
+    font-weight: 300;
+    opacity: 0;
+    animation: fadeIn 1.5s ease forwards;
+    animation-delay: 4.3s;
+  }
+
+  /* Keyframes */
+  @keyframes fadeUp {
+    0% { opacity: 0; transform: translateY(30px); }
+    100% { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes fadeIn {
+    0% { opacity: 0; }
+    100% { opacity: 1; }
+  }
+
+  /* Golden glow pulse on title */
+  .glow-pulse {
+    animation: glowPulse 3s ease-in-out infinite;
+    animation-delay: 3s;
+  }
+  @keyframes glowPulse {
+    0%,100% { filter: drop-shadow(0 0 20px rgba(201,168,76,0.3)); }
+    50% { filter: drop-shadow(0 0 50px rgba(201,168,76,0.7)); }
+  }
+
+  @media (max-width: 480px) {
+    .message-card { padding: 30px 20px; }
+    .candle-body { height: 50px; }
+    .candles { gap: 14px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Stars -->
+<div class="stars" id="stars"></div>
+
+<!-- Cross beams -->
+<div class="cross-light"></div>
+<div class="cross-light-h"></div>
+
+<!-- Floating particles -->
+<div class="particles" id="particles"></div>
+
+<div class="container">
+
+  <!-- Halo + Cross -->
+  <div class="halo-wrapper">
+    <svg class="halo-ring" viewBox="0 0 180 180" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="goldGrad" x1="0" y1="0" x2="180" y2="180">
+          <stop offset="0%" stop-color="#8B6914"/>
+          <stop offset="30%" stop-color="#F0D080"/>
+          <stop offset="60%" stop-color="#C9A84C"/>
+          <stop offset="100%" stop-color="#8B6914"/>
+        </linearGradient>
+      </defs>
+      <!-- Outer ring -->
+      <circle cx="90" cy="90" r="82" stroke="url(#goldGrad)" stroke-width="1.5" stroke-dasharray="8 4" opacity="0.6"/>
+      <!-- Middle ring -->
+      <circle cx="90" cy="90" r="70" stroke="url(#goldGrad)" stroke-width="2" opacity="0.8"/>
+      <!-- Inner ring -->
+      <circle cx="90" cy="90" r="56" stroke="url(#goldGrad)" stroke-width="1" stroke-dasharray="4 8" opacity="0.5"/>
+
+      <!-- Stars on ring -->
+      <g fill="#C9A84C" opacity="0.9">
+        <polygon points="90,8 92,14 98,14 93,18 95,24 90,20 85,24 87,18 82,14 88,14" transform="scale(0.7) translate(39,3)"/>
+        <polygon points="90,8 92,14 98,14 93,18 95,24 90,20 85,24 87,18 82,14 88,14" transform="rotate(90,90,90) scale(0.7) translate(39,3)"/>
+        <polygon points="90,8 92,14 98,14 93,18 95,24 90,20 85,24 87,18 82,14 88,14" transform="rotate(180,90,90) scale(0.7) translate(39,3)"/>
+        <polygon points="90,8 92,14 98,14 93,18 95,24 90,20 85,24 87,18 82,14 88,14" transform="rotate(270,90,90) scale(0.7) translate(39,3)"/>
+      </g>
+    </svg>
+
+    <!-- Alpha & Omega flanking cross -->
+    <div class="alpha-omega">
+      <span class="greek-letter alpha">Α</span>
+      <span></span>
+      <span class="greek-letter omega">Ω</span>
+    </div>
+
+    <!-- Cross in center -->
+    <svg class="cross-icon" viewBox="0 0 60 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="crossGrad" x1="0" y1="0" x2="60" y2="80">
+          <stop offset="0%" stop-color="#F0D080"/>
+          <stop offset="50%" stop-color="#C9A84C"/>
+          <stop offset="100%" stop-color="#8B6914"/>
+        </linearGradient>
+        <filter id="glow">
+          <feGaussianBlur stdDeviation="2" result="blur"/>
+          <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+        </filter>
+      </defs>
+      <rect x="26" y="0" width="8" height="80" rx="2" fill="url(#crossGrad)" filter="url(#glow)"/>
+      <rect x="8" y="18" width="44" height="8" rx="2" fill="url(#crossGrad)" filter="url(#glow)"/>
+    </svg>
+  </div>
+
+  <!-- Greetings -->
+  <div class="greeting">✦ Avec joie et gratitude ✦</div>
+
+  <h1 class="main-title glow-pulse">Joyeux<br>Anniversaire</h1>
+
+  <p class="subtitle">À mon grand frère en Christ</p>
+
+  <!-- Alpha & Omega Banner -->
+  <div class="ao-banner">
+    <span class="ao-letter alpha-big">Α</span>
+    <div class="ao-separator">
+      <span>—</span>
+      <span style="font-size:0.7rem; letter-spacing:0.15em; color: var(--gold); font-family:'Cormorant Garamond',serif; font-style:italic;">Je suis</span>
+      <span>—</span>
+    </div>
+    <span class="ao-letter omega-big">Ω</span>
+  </div>
+  <div class="divider">
+    <div class="divider-line"></div>
+  <!-- Divider -->
+  <div class="divider">
+    <div class="divider-line"></div>
+    <span class="divider-cross" style="letter-spacing:0.25em; font-size:1rem; font-family:'Cinzel Decorative',serif;">Α ✝ Ω</span>
+    <div class="divider-line"></div>
+  </div>
+    <div class="divider-line"></div>
+  </div>
+
+  <!-- Message card -->
+  <div class="message-card">
+    <p class="verse">
+      Joyeux anniversaire, cher grand frère !<br><br>
+      Je rends grâce à Dieu pour ta vie et pour<br>
+      l'homme de foi que tu es.<br><br>
+      Que Sa paix et Sa grâce continuent de t'accompagner<br>
+      durant cette nouvelle année.<br>
+      Sois richement béni dans tous tes projets.<br><br>
+      <em>« Que l'Éternel te bénisse et te garde,<br>
+      qu'il fasse luire sa face sur toi<br>
+      et t'accorde sa grâce. »</em>
+    </p>
+    <span class="verse-ref">— Nombres 6 : 24-25</span>
+    <div style="margin-top:30px; padding-top:25px; border-top:1px solid rgba(201,168,76,0.2);">
+      <p style="font-size:clamp(0.95rem,2.2vw,1.15rem); line-height:1.8; color:var(--gold-light); font-style:italic; font-weight:300;">
+        <span style="font-family:'Cinzel Decorative',serif; font-size:1.3em;">Α</span>
+        &nbsp;«&nbsp;Je suis l'Alpha et l'Oméga, le premier et le dernier,
+        le commencement et la fin.&nbsp;»&nbsp;
+        <span style="font-family:'Cinzel Decorative',serif; font-size:1.3em;">Ω</span>
+      </p>
+      <span style="font-size:0.85rem; color:var(--gold); letter-spacing:0.2em; text-transform:uppercase; margin-top:10px; display:block;">— Apocalypse 22 : 13</span>
+    </div>
+
+  <!-- Divider 2 -->
+  <div class="divider" style="animation-delay: 3.2s;">
+    <div class="divider-line"></div>
+    <span class="divider-cross" style="letter-spacing:0.2em; font-size:0.95rem; font-family:'Cinzel Decorative',serif;">Α ✦ Ω</span>
+    <div class="divider-line"></div>
+  </div>
+
+  <!-- Candles -->
+  <div class="candles">
+    <div class="candle">
+      <div class="flame"></div>
+      <div class="wick"></div>
+      <div class="candle-body"></div>
+      <div class="candle-base"></div>
+    </div>
+    <div class="candle">
+      <div class="flame"></div>
+      <div class="wick"></div>
+      <div class="candle-body" style="height:80px"></div>
+      <div class="candle-base"></div>
+    </div>
+    <div class="candle">
+      <div class="flame"></div>
+      <div class="wick"></div>
+      <div class="candle-body" style="height:90px"></div>
+      <div class="candle-base"></div>
+    </div>
+    <div class="candle">
+      <div class="flame"></div>
+      <div class="wick"></div>
+      <div class="candle-body" style="height:80px"></div>
+      <div class="candle-base"></div>
+    </div>
+    <div class="candle">
+      <div class="flame"></div>
+      <div class="wick"></div>
+      <div class="candle-body"></div>
+      <div class="candle-base"></div>
+    </div>
+  </div>
+
+  <p class="signature" style="font-family:'Cinzel Decorative',serif; font-size:1.3rem;">Α &nbsp;✦&nbsp; Ω</p>
+  <p style="margin-top:8px; opacity:0; animation: fadeIn 1.5s ease forwards; animation-delay:4.1s; font-size:0.9rem; color:var(--gold); letter-spacing:0.25em; font-style:italic;">Du commencement jusqu'à la fin</p>
+  <p class="blessing">Que cette nouvelle année de ta vie<br>soit remplie de la paix et de la grâce de Dieu. 🕊️</p>
+
+</div>
+
+<script>
+  // Generate stars
+  const starsContainer = document.getElementById('stars');
+  for (let i = 0; i < 120; i++) {
+    const star = document.createElement('div');
+    star.className = 'star';
+    const size = Math.random() * 2.5 + 0.5;
+    star.style.cssText = `
+      width: ${size}px;
+      height: ${size}px;
+      top: ${Math.random() * 100}%;
+      left: ${Math.random() * 100}%;
+      --dur: ${Math.random() * 3 + 2}s;
+      --delay: ${Math.random() * 5}s;
+      --op: ${Math.random() * 0.7 + 0.2};
+    `;
+    starsContainer.appendChild(star);
+  }
+
+  // Generate particles
+  const particlesContainer = document.getElementById('particles');
+  for (let i = 0; i < 20; i++) {
+    const p = document.createElement('div');
+    p.className = 'particle';
+    p.style.cssText = `
+      --left: ${Math.random() * 100}%;
+      --dur: ${Math.random() * 8 + 6}s;
+      --delay: ${Math.random() * 8}s;
+      width: ${Math.random() * 4 + 2}px;
+      height: ${Math.random() * 4 + 2}px;
+    `;
+    particlesContainer.appendChild(p);
+  }
+</script>
+</body>
+</html>
